@@ -1,0 +1,43 @@
+{
+  "name": "@typescript-package/regexp",
+  "version": "1.0.0-beta",
+  "author": "wwwdev.io <dev@wwwdev.io>",
+  "description": "A lightweight TypeScript library for `RegExp`.",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "peerDependencies": {
+    "@typescript-package/core": "^1.2.0"
+  },
+  "scripts": {
+    "prepublishOnly": "npm run pkg && npm run clean",
+    "pkg": "npm pkg delete module dependencies",
+    "clean": "npm pkg delete scripts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/typescript-package/regexp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/typescript-package/regexp/issues"
+  },
+  "keywords": [
+    "@typescript-package",
+    "@typescript-package/regexp",
+    "Filter",
+    "Pattern"
+  ],
+  "funding": [
+    {
+      "type": "stripe",
+      "url": "https://donate.stripe.com/dR614hfDZcJE3wAcMM"
+    },
+    {
+      "type": "revolut",
+      "url": "https://checkout.revolut.com/pay/048b10a3-0e10-42c8-a917-e3e9cb4c8e29"
+    }
+  ],
+  "sideEffects": false
+}
