@@ -1,0 +1,1 @@
+export type { PatternOptions } from './pattern-options.interface';
