@@ -1,5 +1,6 @@
 // Type.
-import { RegExpFlags, UppercaseLetter } from "../type";
+import { RegExpFlags } from "../type";
+import { UppercaseLetter } from '@typedly/letter';
 /**
  * @description
  * @export
