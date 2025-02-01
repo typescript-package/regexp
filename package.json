@@ -9,6 +9,8 @@
     "registry": "https://registry.npmjs.org"
   },
   "peerDependencies": {
+    "@typedly/digit": "^1.0.0",
+    "@typedly/letter": "^1.0.0",
     "@typescript-package/core": "^1.2.0"
   },
   "scripts": {
@@ -27,7 +29,9 @@
     "@typescript-package",
     "@typescript-package/regexp",
     "Filter",
-    "Pattern"
+    "LowercaseRegExp",
+    "Pattern",
+    "UppercaseRegExp"
   ],
   "funding": [
     {
