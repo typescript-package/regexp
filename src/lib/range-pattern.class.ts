@@ -39,7 +39,7 @@ export class RangePattern<
    * @description
    * @public
    * @readonly
-   * @type {boolean}
+   * @type {Negated}
    */
   public get negated() {
     return this.#negated;
@@ -61,7 +61,7 @@ export class RangePattern<
    * @readonly
    * @type {`[${Negated extends true ? "^" : ""}${From}-${To}${Escaped<Character>}]`}
    */
-  public get value() {
+  public get range() {
     return this.toString();
   }
 
@@ -94,7 +94,8 @@ export class RangePattern<
    * @constructor
    * @param {From} from 
    * @param {To} to 
-   * @param {boolean} [negated=false] 
+   * @param {Character} [character='' as Character] 
+   * @param {Negated} [negated=false as Negated] 
    */
   constructor(
     from: From,
@@ -109,19 +110,18 @@ export class RangePattern<
   }
 
   /**
-   * @description
+   * @description Checks whether pattern is in the negated state.
    * @public
-   * @readonly
-   * @type {boolean}
+   * @returns {Negated extends true ? true : false} 
    */
-  public isNegated(): boolean {
-    return this.#negated === true;
+  public isNegated(): Negated extends true ? true : false {
+    return this.#negated as unknown as Negated extends true ? true : false;
   }
-  
+
   /**
    * @description Toggles the negation state.
    * @public
-   * @returns {this} 
+   * @returns {RangePattern<From, To, Character, Negated extends true ? false : true>} 
    */
   public negate(): RangePattern<From, To, Character, Negated extends true ? false : true> {
     return new RangePattern(this.#from, this.#to, this.#character, !this.#negated) as any;
