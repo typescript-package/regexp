@@ -1,30 +1,22 @@
 // Type.
-import { CharacterRange } from "../type/character-range.type";
+import { CharacterRange } from '@typedly/regexp';
+import { RegExpSpecialCharacter } from '../type/regexp-special-character.type';
+import { SpecialCharacterPattern } from './special-character-pattern.class';
 /**
  * @description
  * @export
  * @class RangePattern
  * @template {number | string} From 
  * @template {number | string} To 
- * @template {string} [Character=''] 
+ * @template {[RegExpSpecialCharacter, ...RegExpSpecialCharacter[]]} Character 
  * @template {boolean} [Negated=false] 
  */
 export class RangePattern<
   From extends number | string,
   To extends number | string,
-  Character extends string = '',
+  Character extends [RegExpSpecialCharacter, ...RegExpSpecialCharacter[]],
   Negated extends boolean = false
 > {
-  /**
-   * @description
-   * @public
-   * @readonly
-   * @type {Character}
-   */
-  public get character() {
-    return this.#character;
-  }
-
   /**
    * @description
    * @public
@@ -49,6 +41,16 @@ export class RangePattern<
    * @description
    * @public
    * @readonly
+   * @type {Set<string>}
+   */
+  public get specialCharacter() {
+    return this.#specialCharacter;
+  }
+
+  /**
+   * @description
+   * @public
+   * @readonly
    * @type {To}
    */
   public get to() {
@@ -59,17 +61,17 @@ export class RangePattern<
    * @description
    * @public
    * @readonly
-   * @type {`[${Negated extends true ? "^" : ""}${From}-${To}${Escaped<Character>}]`}
+   * @type {CharacterRange<From, To, Character, Negated>}
    */
-  public get range() {
+  public get pattern() {
     return this.toString();
   }
 
   /**
    * @description
-   * @type {Character}
+   * @type {SpecialCharacterPattern}
    */
-  #character;
+  #specialCharacter: SpecialCharacterPattern<Character>;
 
   /**
    * @description
@@ -100,11 +102,11 @@ export class RangePattern<
   constructor(
     from: From,
     to: To,
-    character: Character = '' as Character,
+    character: Character,
     negated: Negated = false as Negated
   ) {
     this.#from = from;
-    this.#character = character;
+    this.#specialCharacter = new SpecialCharacterPattern(...character);
     this.#negated = negated;
     this.#to = to;
   }
@@ -124,7 +126,7 @@ export class RangePattern<
    * @returns {RangePattern<From, To, Character, Negated extends true ? false : true>} 
    */
   public negate(): RangePattern<From, To, Character, Negated extends true ? false : true> {
-    return new RangePattern(this.#from, this.#to, this.#character, !this.#negated) as any;
+    return new RangePattern(this.#from, this.#to, [...this.#specialCharacter.pattern] as any, !this.#negated) as any;
   }
 
   /**
@@ -133,6 +135,6 @@ export class RangePattern<
    * @returns {CharacterRange<From, To, Character, Negated>} 
    */
   public toString() {
-    return `[${this.#negated ? "^" : ""}${this.#from}-${this.#to}]` as CharacterRange<From, To, Character, Negated>;
+    return `[${this.#negated ? "^" : ""}${this.#from}-${this.#to}${this.#specialCharacter.pattern}]` as CharacterRange<From, To, Character, Negated>;
   }
 }
