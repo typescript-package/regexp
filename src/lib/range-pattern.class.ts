@@ -12,7 +12,17 @@ export class RangePattern<
   From extends number | string,
   To extends number | string,
   Negated extends boolean = false
-> {
+> {  
+  /**
+   * @description Returns the `string` tag representation of the `RangePattern` class when used in `Object.prototype.toString.call(instance)`.
+   * @public
+   * @readonly
+   * @type {string}
+   */
+  public get [Symbol.toStringTag]() {
+    return RangePattern.name;
+  }
+
   /**
    * @description
    * @public
