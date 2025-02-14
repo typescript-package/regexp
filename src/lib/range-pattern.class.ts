@@ -37,20 +37,20 @@ export class RangePattern<
    * @description
    * @public
    * @readonly
-   * @type {To}
+   * @type {CharacterRange<From, To, "", Negated>}
    */
-  public get to() {
-    return this.#to;
+  public get pattern() {
+    return this.toString();
   }
 
   /**
    * @description
    * @public
    * @readonly
-   * @type {CharacterRange<From, To, "", Negated>}
+   * @type {To}
    */
-  public get pattern() {
-    return this.toString();
+  public get to() {
+    return this.#to;
   }
 
   /**
