@@ -1,10 +1,7 @@
 // Class.
 import { Value } from "@typescript-package/core";
 // Type.
-import { FlagString } from "../type/regexp-flag-string.type";
-import { RegExpFlag } from "@typedly/regexp";
-import { AppendFlag } from "../type/append-flag.type";
-import { RemoveFlag } from "../type/remove-flag.type";
+import { AppendFlag, FlagString, RegExpFlag, RemoveFlag } from "@typedly/regexp";
 /**
  * @description
  * @export
@@ -12,7 +9,7 @@ import { RemoveFlag } from "../type/remove-flag.type";
  * @template {RegExpFlag[]} [Value=[]] 
  * @extends {Value<Set<RegExpFlag>>}
  */
-export class PatternFlag<Value extends RegExpFlag[] = []> extends Value<Set<RegExpFlag>> {
+export class Flags<Value extends RegExpFlag[] = []> extends Value<Set<RegExpFlag>> {
   /**
    * Creates an instance of `PatternFlag`.
    * @constructor
@@ -37,63 +34,63 @@ export class PatternFlag<Value extends RegExpFlag[] = []> extends Value<Set<RegE
    * @public
    * @template {RegExpFlag} Flag 
    * @param {Flag} flag 
-   * @returns {PatternFlag<AppendFlag<Value, Flag>>} 
+   * @returns {Flags<AppendFlag<Value, Flag>>} 
    */
-  public add<Flag extends RegExpFlag>(flag: Flag): PatternFlag<AppendFlag<Value, Flag>> {
-    return new PatternFlag(...([...super.value, flag] as AppendFlag<Value, Flag>));
+  public add<Flag extends RegExpFlag>(flag: Flag): Flags<AppendFlag<Value, Flag>> {
+    return new Flags(...([...super.value, flag] as AppendFlag<Value, Flag>));
   }
 
   /**
    * @description Adds the 's' (dotAll) flag.
    * @public
-   * @returns {PatternFlag<[...Value, 's']>} 
+   * @returns {Flags<[...Value, 's']>} 
    */
-  public any(): PatternFlag<AppendFlag<Value, 's'>> {
+  public any(): Flags<AppendFlag<Value, 's'>> {
     return this.add('s');
   }
 
   /**
    * @description the 'g' (global) flag.
    * @public
-   * @returns {PatternFlag<[...Value, 'g']>}
+   * @returns {Flags<[...Value, 'g']>}
    */
-  public global(): PatternFlag<AppendFlag<Value, 'g'>> {
+  public global(): Flags<AppendFlag<Value, 'g'>> {
     return this.add('g');
   }
 
   /**
    * @description Adds the 'i' (ignore case) flag.
    * @public
-   * @returns {PatternFlag<[...Value, 'i']>}
+   * @returns {Flags<[...Value, 'i']>}
    */
-  public ignore(): PatternFlag<AppendFlag<Value, 'i'>> {
+  public ignore(): Flags<AppendFlag<Value, 'i'>> {
     return this.add('i');
   }
 
   /**
    * @description Adds the 'm' (multiline) flag.
    * @public
-   * @returns {PatternFlag<[...Value, 'm']>} 
+   * @returns {Flags<[...Value, 'm']>} 
    */
-  public multiline(): PatternFlag<AppendFlag<Value, 'm'>> {
+  public multiline(): Flags<AppendFlag<Value, 'm'>> {
     return this.add('m');
   }
 
   /**
    * @description Adds the 'u' (unicode) flag.
    * @public
-   * @returns {PatternFlag<[...Value, 'u']>} 
+   * @returns {Flags<[...Value, 'u']>} 
    */
-  public unicode(): PatternFlag<AppendFlag<Value, 'u'>> {
+  public unicode(): Flags<AppendFlag<Value, 'u'>> {
     return this.add('u');
   }
 
   /**
    * @description Adds the 'y' (sticky) flag.
    * @public
-   * @returns {PatternFlag<[...Value, 'y']>} 
+   * @returns {Flags<[...Value, 'y']>} 
    */
-  public sticky(): PatternFlag<AppendFlag<Value, 'y'>> {
+  public sticky(): Flags<AppendFlag<Value, 'y'>> {
     return this.add('y');
   }
 
@@ -101,54 +98,54 @@ export class PatternFlag<Value extends RegExpFlag[] = []> extends Value<Set<RegE
   /**
    * @description Removes the 's' (dotAll) flag.
    * @public
-   * @returns {PatternFlag<Exclude<Value[number], 's'>[]>}
+   * @returns {Flags<Exclude<Value[number], 's'>[]>}
    */
-  public removeAny(): PatternFlag<RemoveFlag<Value, 's'>> {
+  public removeAny(): Flags<RemoveFlag<Value, 's'>> {
     return this.remove('s');
   }
 
   /**
    * @description Removes the 'g' (global) flag.
    * @public
-   * @returns {PatternFlag<Exclude<Value[number], 'g'>[]>}
+   * @returns {Flags<Exclude<Value[number], 'g'>[]>}
    */
-  public removeGlobal(): PatternFlag<RemoveFlag<Value, 'g'>> {
+  public removeGlobal(): Flags<RemoveFlag<Value, 'g'>> {
     return this.remove('g');
   }
 
   /**
    * @description Removes the 'i' (ignore case) flag.
    * @public
-   * @returns {PatternFlag<Exclude<Value[number], 'i'>[]>}
+   * @returns {Flags<Exclude<Value[number], 'i'>[]>}
    */
-  public removeIgnore(): PatternFlag<RemoveFlag<Value, 'i'>> {
+  public removeIgnore(): Flags<RemoveFlag<Value, 'i'>> {
     return this.remove('i');
   }
 
   /**
    * @description Removes the 'm' (multiline) flag.
    * @public
-   * @returns {PatternFlag<Exclude<Value[number], 'm'>[]>}
+   * @returns {Flags<Exclude<Value[number], 'm'>[]>}
    */
-  public removeMultiline(): PatternFlag<RemoveFlag<Value, 'm'>> {
+  public removeMultiline(): Flags<RemoveFlag<Value, 'm'>> {
     return this.remove('m');
   }
 
   /**
    * @description Removes the 'u' (unicode) flag.
    * @public
-   * @returns {PatternFlag<Exclude<Value[number], 'u'>[]>}
+   * @returns {Flags<Exclude<Value[number], 'u'>[]>}
    */
-  public removeUnicode(): PatternFlag<RemoveFlag<Value, 'u'>> {
+  public removeUnicode(): Flags<RemoveFlag<Value, 'u'>> {
     return this.remove('u');
   }
 
   /**
    * @description Removes the 'y' (sticky) flag.
    * @public
-   * @returns {PatternFlag<Exclude<Value[number], 'y'>[]>}
+   * @returns {Flags<Exclude<Value[number], 'y'>[]>}
    */
-  public removeSticky(): PatternFlag<RemoveFlag<Value, 'y'>> {
+  public removeSticky(): Flags<RemoveFlag<Value, 'y'>> {
     return this.remove('y');
   }
   //#endregion
@@ -157,14 +154,14 @@ export class PatternFlag<Value extends RegExpFlag[] = []> extends Value<Set<RegE
    * @description Generic method to remove a flag while keeping tuple order.
    * @public
    * @param {RegExpFlag} flag - The flag to remove.
-   * @returns {PatternFlag<RemoveFlag<Value, typeof flag>>}
+   * @returns {Flags<RemoveFlag<Value, typeof flag>>}
    */
-  public remove<Flag extends RegExpFlag>(flag: Flag): PatternFlag<RemoveFlag<Value, Flag>> {
+  public remove<Flag extends RegExpFlag>(flag: Flag): Flags<RemoveFlag<Value, Flag>> {
     const updatedFlags = super.value.has(flag)
       ? (super.value as Set<RegExpFlag>).delete(flag) && Array.from(super.value)
       : Array.from(super.value);
 
-    return new PatternFlag(...(updatedFlags as RemoveFlag<Value, Flag>));
+    return new Flags(...(updatedFlags as RemoveFlag<Value, Flag>));
   }
 
   /**
