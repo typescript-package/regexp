@@ -14,9 +14,9 @@ export abstract class FromTo<
   From extends number | string,
   To extends number | string,
   Delimiter extends string = ''
-> extends Value<string> {
+> extends Value<`${From}${Delimiter}${To}`> {
   /**
-   * @description Returns the `string` tag representation of the `FromToPattern` class when used in `Object.prototype.toString.call(instance)`.
+   * @description Returns the `string` tag representation of the `FromTo` class when used in `Object.prototype.toString.call(instance)`.
    * @public
    * @readonly
    * @type {string}
@@ -84,7 +84,7 @@ export abstract class FromTo<
   #to: To;
 
   /**
-   * Creates an instance of `FromTo`.
+   * Creates an instance of child class.
    * @constructor
    * @param {From} from Start of the pattern range.
    * @param {To} to End of the pattern range.
