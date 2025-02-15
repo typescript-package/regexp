@@ -1,29 +1,29 @@
-// Type.
-import { LowercaseLetter } from '@typedly/letter';
+// Class.
 import { LowercaseLetterRange } from '@typedly/regexp';
 import { RangePattern } from './range-pattern.class';
+// Type.
+import { LowercaseLetter } from '@typedly/letter';
 /**
  * @description
  * @export
- * @class RangePattern
- * @template {number | string} From 
- * @template {number | string} To 
- * @template {string} [Character=''] 
+ * @class LowercasePattern
+ * @template {LowercaseLetter} From 
+ * @template {LowercaseLetter} To 
  * @template {boolean} [Negated=false] 
+ * @extends {RangePattern<From, To, Negated>}
  */
 export class LowercasePattern<
   From extends LowercaseLetter,
   To extends LowercaseLetter,
-  Character extends string = '',
   Negated extends boolean = false
-> extends RangePattern<From, To, Character, Negated> {
+> extends RangePattern<From, To, Negated> {  
   /**
    * @inheritdoc
    * @public
    * @readonly
-   * @type {LowercaseLetterRange<From, To, Character, Negated>}
+   * @type {LowercaseLetterRange<From, To, "", Negated>}
    */
-  public override get range() {
+  public override get pattern() {
     return this.toString();
   }
 
@@ -32,24 +32,22 @@ export class LowercasePattern<
    * @constructor
    * @param {From} from 
    * @param {To} to 
-   * @param {Character} [character='' as Character] 
    * @param {Negated} [negated=false as Negated] 
    */
   constructor(
     from: From,
     to: To,
-    character: Character = '' as Character,
     negated: Negated = false as Negated
   ) {
-    super(from, to, character, negated);
+    super(from, to, negated);
   }
 
   /**
-   * @description
+   * @inheritdoc
    * @public
-   * @returns {LowercaseLetterRange<From, To, Character, Negated>} 
+   * @returns {LowercaseLetterRange<From, To, "", Negated>} 
    */
   public override toString() {
-    return super.toString() as LowercaseLetterRange<From, To, Character, Negated>;
+    return super.toString() as LowercaseLetterRange<From, To, '', Negated>;
   }
 }
