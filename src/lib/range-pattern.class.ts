@@ -1,3 +1,5 @@
+// Class.
+import { FromTo } from './from-to.abstract';
 // Type.
 import { CharacterRange } from '@typedly/regexp';
 /**
@@ -12,25 +14,15 @@ export class RangePattern<
   From extends number | string,
   To extends number | string,
   Negated extends boolean = false
-> {  
+> extends FromTo<From, To, "-"> {
   /**
    * @description Returns the `string` tag representation of the `RangePattern` class when used in `Object.prototype.toString.call(instance)`.
    * @public
    * @readonly
    * @type {string}
    */
-  public get [Symbol.toStringTag]() {
+  public override get [Symbol.toStringTag]() { 
     return RangePattern.name;
-  }
-
-  /**
-   * @description
-   * @public
-   * @readonly
-   * @type {From}
-   */
-  public get from() {
-    return this.#from;
   }
 
   /**
@@ -47,6 +39,16 @@ export class RangePattern<
    * @description
    * @public
    * @readonly
+   * @type {string}
+   */
+  public get negation() {
+    return this.#negation as unknown as Negated extends true ? "^" : "";
+  }
+
+  /**
+   * @description
+   * @public
+   * @readonly
    * @type {CharacterRange<From, To, "", Negated>}
    */
   public get pattern() {
@@ -55,19 +57,12 @@ export class RangePattern<
 
   /**
    * @description
-   * @public
    * @readonly
-   * @type {To}
+   * @type {string}
    */
-  public get to() {
-    return this.#to;
+  get #negation() {
+    return `${this.#negated ? "^" : ""}`;
   }
-
-  /**
-   * @description
-   * @type {From}
-   */
-  #from: From;
 
   /**
    * @description
@@ -76,15 +71,9 @@ export class RangePattern<
   #negated: Negated;
 
   /**
-   * @description
-   * @type {To}
-   */
-  #to: To;
-
-  /**
    * Creates an instance of `RangePattern`.
    * @constructor
-   * @param {From} from 
+   * @param {From} from Start of the pattern range.
    * @param {To} to 
    * @param {Negated} [negated=false as Negated] 
    */
@@ -93,9 +82,8 @@ export class RangePattern<
     to: To,
     negated: Negated = false as Negated
   ) {
-    this.#from = from;
+    super(from, to, "-");
     this.#negated = negated;
-    this.#to = to;
   }
 
   /**
@@ -113,7 +101,23 @@ export class RangePattern<
    * @returns {RangePattern<From, To, Negated extends true ? false : true>} 
    */
   public negate() {
-    return new RangePattern(this.#from, this.#to, !this.#negated) as RangePattern<From, To, Negated extends true ? false : true>;
+    return new RangePattern(super.from, super.to, !this.#negated) as RangePattern<From, To, Negated extends true ? false : true>;
+  }
+
+  /**
+   * @description Converts the `RangePattern` to a RegExp object with optional flags, anchors, and special character escaping.
+   * @public
+   * @param {string} [flags=''] - Optional flags to apply to the RegExp (e.g., 'g', 'i', 'm').
+   * @param {boolean} [anchors=false] - Whether to include start (^) and end ($) anchors in the pattern.
+   * @returns {RegExp} The regular expression representation of the pattern.
+   */
+  public toRegExp(
+    flags: string = '',
+    anchors: boolean = false,
+  ) {
+    let pattern: string = this.toString();
+    anchors === true && (pattern = `^${pattern}$`);
+    return new RegExp(pattern, flags);
   }
 
   /**
@@ -121,7 +125,7 @@ export class RangePattern<
    * @public
    * @returns {CharacterRange<From, To, "", Negated>} 
    */
-  public toString() {
-    return `[${this.#negated ? "^" : ""}${this.#from}-${this.#to}]` as CharacterRange<From, To, '', Negated>;
+  public override toString() {
+    return `[${this.#negation}${this.fromTo}]` as CharacterRange<From, To, '', Negated>;
   }
 }
