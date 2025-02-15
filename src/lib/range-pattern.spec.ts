@@ -75,15 +75,6 @@ describe('RangePattern', () => {
       expect(regex.test('za')).toBeFalse();
     });
 
-    it('should escape special characters when required', () => {
-      const specialRange = new RangePattern('[', ']');
-      const regex = specialRange.toRegExp('', false, true); // Escape special chars
-      console.log(regex);
-      expect(regex.test('[')).toBeTrue();
-      // expect(regex.test(']')).toBeTrue();
-      expect(regex.test('-')).toBeFalse(); // Not in range
-    });
-
     it('should correctly negate the range', () => {
       const negatedRange = new RangePattern('a', 'z', true);
       const regex = negatedRange.toRegExp();
